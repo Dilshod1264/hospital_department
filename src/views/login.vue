@@ -2,7 +2,13 @@
   <div>
    <div class="auth">
       <div class="box">
-        <h4 class="mb-20">Tizimga kirish</h4>
+         <ul>
+            <li v-for="post,index of posts" :key="index">
+               {{ index + 1 }} {{ post.title }}
+            </li>
+         </ul>
+         <input type="text" v-model="name" @keypress.enter="newPerson()">
+        <!-- <h4 class="mb-20">Tizimga kirish</h4>
         <form class="form" name="login" @submit.prevent="postLogin()">
           <div class="mb-20"> 
             <input class="input" type="text" v-model="login" placeholder="Login">
@@ -11,8 +17,8 @@
             <input class="input" type="password" v-model="password" placeholder="Mahfiy kalit">
           </div>
         </form>
-        <!-- <a class="link" href="#"> Ro'yhatdan o'tish</a> -->
-        <button class="btn success" @click="postLogin()">Kirish</button>
+        <a class="link" href="#"> Ro'yhatdan o'tish</a>
+        <button class="btn success" @click="postLogin()">Kirish</button> -->
       </div>
     </div>
     <notif :text="notif.text" :type='notif.type'/>"
@@ -31,9 +37,11 @@ export default {
    data:()=>({
       login:'',
       password:'',
-      notif:{}
+      notif:{},
+      name:''
    }),
    methods:{
+
       async postLogin(){
          if(this.login && this.password){
             let res = await axios.post(`${url}/auth/login`,{
@@ -68,6 +76,15 @@ export default {
                },1200)
          }
       }
+   },
+   computed:{
+      posts(){
+         return this.$store.getters.posts
+      }
+   },
+   mounted(){
+      this.$store.dispatch('getPosts')
+      this.$store.dispatch('getAllbums')
    }
 }
 </script>
