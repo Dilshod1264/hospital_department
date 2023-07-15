@@ -18,10 +18,10 @@ export const post = {
       
    },
    actions:{
-      async getPosts(context){
-         let res = await context.dispatch('getAxios',context.state.urlPost)
+      async getPosts({dispatch,commit,state}){
+         let res = await dispatch('getAxios',state.urlPost)
          if(res.status == 200){
-            console.log(res.data); 
+          
          }
       }
    }

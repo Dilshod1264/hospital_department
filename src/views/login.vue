@@ -2,13 +2,8 @@
   <div>
    <div class="auth">
       <div class="box">
-         <ul>
-            <li v-for="post,index of posts" :key="index">
-               {{ index + 1 }} {{ post.title }}
-            </li>
-         </ul>
-         <input type="text" v-model="name" @keypress.enter="newPerson()">
-        <!-- <h4 class="mb-20">Tizimga kirish</h4>
+         
+        <h4 class="mb-20">Tizimga kirish</h4>
         <form class="form" name="login" @submit.prevent="postLogin()">
           <div class="mb-20"> 
             <input class="input" type="text" v-model="login" placeholder="Login">
@@ -18,7 +13,7 @@
           </div>
         </form>
         <a class="link" href="#"> Ro'yhatdan o'tish</a>
-        <button class="btn success" @click="postLogin()">Kirish</button> -->
+        <button class="btn success" @click="postLogin()">Kirish</button>
       </div>
     </div>
     <notif :text="notif.text" :type='notif.type'/>"
@@ -26,8 +21,7 @@
 </template>
 
 <script>
-import {url,msgs} from '@/data/vars'
-import axios from 'axios'
+
 import notif from '../components/notif.vue'
 export default {
    emits:['successLogin'], 
@@ -44,36 +38,32 @@ export default {
 
       async postLogin(){
          if(this.login && this.password){
-            let res = await axios.post(`${url}/auth/login`,{
+            this.$store.dispatch('login',{
                login:this.login,
                password:this.password
-            }).catch(e=>{
-               this.notif = {
-               type:'danger',
-               text:msgs[e.response.data]
-               }
-               setTimeout(()=>{
-                  this.notif = {}
-                  console.clear()
-               },1800)
             })
-            if(res.status == 200){
-               console.log(res.data);
-               let {token,user} = res.data
-               this.$cookies.set('hospital-token',token)
-               this.$cookies.set('hospital-user',user)
+            // let res = await axios.post(`${url}/auth/login`,{
+            //    login:this.login,
+            //    password:this.password
+            // }).catch(e=>{
+            //    // this.notif = {
+            //    // type:'danger',
+            //    // text:msgs[e.response.data]
+            //    // }
+            //    // setTimeout(()=>{
+            //    //    this.notif = {}
+            //    //    console.clear()
+            //    // },1800)
+            // })
+            // if(res.status == 200){
+            //    console.log(res.data);
+            //    let {token,user} = res.data
+            //    this.$cookies.set('hospital-token',token)
+            //    this.$cookies.set('hospital-user',user)
 
-               this.$emit('successLogin')
+            //    this.$emit('successLogin')
 
-            }
-         }else{
-            this.notif = {
-               type:'warning',
-               text:'Barcha maydonlarni toldiring'
-               }
-               setTimeout(()=>{
-                  this.notif = {}
-               },1200)
+            // }
          }
       }
    },
