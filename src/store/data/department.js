@@ -21,18 +21,18 @@ export const department = {
       }
    },
    mutations:{
-      setDepartments(state,playload){
-         state.departments = [...playload.map(item =>{
+      setDepartments(state,payload){
+         state.departments = [...payload.map(item =>{
             item.createdTime = converDate(item.createdTime)
             return item
          })]
       },
-      newDepartment(state,playload){
+      newDepartment(state,payload){
          state.departments = [
-            {...playload,createdTime:converDate(payload.createdTime)},
+            {...payload,createdTime:converDate(payload.createdTime)},
             ...state.departments]
       },
-      updateDepartment(state,playload){
+      updateDepartment(state,payload){
          state.departments = state.departments.map(department =>{
             if(department._id == payload._id)
                return {...playload,createdTime:converDate(payload.createdTime)}
@@ -62,7 +62,7 @@ export const department = {
             commit('newDepartment',res.data),
             commit('setNotif',{
                type:'success',
-               text:'Xush kelibsiz'
+               text:'Bolim qoshildi'
             })
          }
       },

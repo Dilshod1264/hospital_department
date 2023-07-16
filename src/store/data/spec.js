@@ -21,18 +21,18 @@ export const spec = {
       }
    },
    mutations:{
-      setSpecs(state,playload){
-         state.specs = [...playload.map(item =>{
+      setSpecs(state,payload){
+         state.specs = [...payload.map(item =>{
             item.createdTime = converDate(item.createdTime)
             return item
          })]
       },
-      newSpec(state,playload){
+      newSpec(state,payload){
          state.specs = [
-            {...playload,createdTime:converDate(payload.createdTime)},
+            {...payload,createdTime:converDate(payload.createdTime)},
             ...state.specs]
       },
-      updateSpec(state,playload){
+      updateSpec(state,payload){
          state.specs = state.specs.map(spec =>{
             if(spec._id == payload._id)
                return {...playload,createdTime:converDate(payload.createdTime)}

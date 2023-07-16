@@ -41,29 +41,7 @@ export default {
             this.$store.dispatch('login',{
                login:this.login,
                password:this.password
-            })
-            // let res = await axios.post(`${url}/auth/login`,{
-            //    login:this.login,
-            //    password:this.password
-            // }).catch(e=>{
-            //    // this.notif = {
-            //    // type:'danger',
-            //    // text:msgs[e.response.data]
-            //    // }
-            //    // setTimeout(()=>{
-            //    //    this.notif = {}
-            //    //    console.clear()
-            //    // },1800)
-            // })
-            // if(res.status == 200){
-            //    console.log(res.data);
-            //    let {token,user} = res.data
-            //    this.$cookies.set('hospital-token',token)
-            //    this.$cookies.set('hospital-user',user)
-
-            //    this.$emit('successLogin')
-
-            // }
+            }) 
          }
       }
    },
@@ -71,10 +49,6 @@ export default {
       posts(){
          return this.$store.getters.posts
       }
-   },
-   mounted(){
-      // this.$store.dispatch('getPosts')
-      // this.$store.dispatch('getAllbums')
    }
 }
 </script>
