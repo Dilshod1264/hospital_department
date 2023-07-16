@@ -73,8 +73,8 @@ export default {
       }
    },
    mounted(){
-      this.$store.dispatch('getPosts')
-      this.$store.dispatch('getAllbums')
+      // this.$store.dispatch('getPosts')
+      // this.$store.dispatch('getAllbums')
    }
 }
 </script>

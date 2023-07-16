@@ -16,7 +16,7 @@
                    <td>{{ index + 1 }}</td>
                    <td>{{ department.title }}</td>
                    <td>{{ department.createdTime }}</td>  
-                  <td> </td>
+                  <td> <button @click="remove(department._id)">X</button> </td>
                 </tr>
               </tbody>
             </table>
@@ -51,76 +51,56 @@
         </div>
       </div>
     </div>
-    <notif :text="notif.text" :type='notif.type'/>"
+   
   </div>
 </template>
 
 <script>
-import {url} from '@/data/vars'
-import axios from 'axios'
-import notif from '../components/notif.vue'
+import { mapActions, mapGetters } from 'vuex';
 export default {
-   components:{
-      notif,
-   },
    data:()=>({
       toggle:false,
       editToggle:true,
       title:'',
-      departments:[],
       token:'',
       notif:{}
    }),
+   computed: {
+      ...mapGetters([
+         'departments'
+      ]
+      )
+   },
    methods:{
+      ...mapActions([
+      'getAllDepartments',
+      'addDepartment',
+      'deleteDepartment'
+      ]),
       async add(){
          if(this.title){
-            let res = await axios.post(`${url}/department`,{
-               title: this.title
-            },{
-               headers:{
-                  "authorization" : `Bearer ${this.token}`
-               }
-            })
-            if(res.status == 201){
-               this.notif = {
-                  type:'success',
-                  text:'Yangi bolim qoshildi'
-               }
-               this.toggle = false
-               this.title = ''
-               this.departments = [res.data,...this.departments]
-               setTimeout(()=>{
-                  this.notif = {}
-               },1200)
-            }  
+            this.addDepartment({title:this.title})
+            this.clear()
          }
          else{
-            this.notif = {
+            this.$store.commit('setNotif',{
                type:'warning',
-               text:'Bolim nomini toldiring'
-               }
-               setTimeout(()=>{
-                  this.notif = {}
-               },1200)
+               text:'Bolim nomini kiriting'
+            })
          }
       },
-      async getDepartments(){
-         let res = await axios.get(`${url}/department`,{
-            headers:{
-                  "authorization" : `Bearer ${this.token}`
-               }
-         })
-         if(res.status == 200){
-            this.departments = [...res.data]
-            console.log(res.data);
+      remove(id){
+         if(confirm('Qaroringiz qattiymi')){
+            this.deleteDepartment(id)
          }
+      },
+      clear(){
+         this.toggle = false,
+         this.title = ""
       }
    },
    mounted(){
-      if(this.$cookies.isKey('hospital-token')){
-         this.token = this.$cookies.get('hospital-token')
-      }
-      this.getDepartments()
+      this.getAllDepartments()
    }
 };
 </script>

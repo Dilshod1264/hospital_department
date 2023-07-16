@@ -1,13 +1,21 @@
 <template>
-   <div :class="`notif ${type || ''} ${type ? 'active' : ''}`">
-      {{ text }}
+   <div 
+   :class="
+   `notif ${notif.type || ''}
+    ${notif.type ? 'active' : ''}`">
+      {{ notif.text }}
    </div>
   
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-   props:['text','type']
+    computed:{
+        ...mapGetters([
+            'notif'
+        ])
+    }
 }
 </script>
 

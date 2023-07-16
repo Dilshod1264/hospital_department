@@ -6,12 +6,12 @@
       <div class="title">MEDICINE </div>
      <nav class="nav">
          <router-link 
-         v-for="item,index of links"
-         :key="index" 
-         :to="item.link">
-         <!-- <img :src="getImg(item.icon)" alt="">  -->
-         {{ item.title }}
-   </router-link>
+            v-for="item,index of links"
+            :key="index" 
+            :to="item.link">
+            <!-- <img :src="getImg(item.icon)" alt="">  -->
+                {{ item.title }}
+         </router-link>
             <!-- <a class="active" href="index.html">
             <img src="./assets/img/home.svg" alt="">Bosh sahifa</a>
             
@@ -26,6 +26,8 @@
             
             <a class="" href="patient.html">
             <img src="./assets/img/bemor.svg" alt="">Bemorlar</a> -->
+
+            <button @click="logout()">Chiqish</button>
         </nav>
       </aside>
 </template>
@@ -44,13 +46,23 @@ export default {
             title:'Bolimlar',
             icon:'department'
          },
+         {
+            link:'/spec',
+            title:'Mutaxassisliklar',
+            icon:'department'
+         },
    ]
    }),
-   // methods:{
-   //    getImg(link){
-   //       return require(`@/assets`)
-   //    }
-   // }
+   methods:{
+      // getImg(link){
+      //    return new URl(`/src/assets/img/${link}.svg`, import.meta.url)
+      // },
+      logout(){
+         if(confirm('Qaroringiz qatiymi')){
+            this.$store.dispatch('exit')
+         }
+      }
+   }
 }
 </script>
 

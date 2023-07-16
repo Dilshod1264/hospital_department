@@ -1,9 +1,9 @@
 <template>
   <header class="header">
-          <form class="search"><img src="./assets/img/search.svg" alt="">
+          <form class="search"><img src="@/assets/img/search.svg" alt="">
             <input type="text" placeholder="Qidiruv">
           </form>
-          <div class="avatar"><img src="./assets/img/avatar.svg" alt=""></div>
+          <div class="avatar"><img src="@/assets/img/avatar.svg" alt=""></div>
    </header>
 </template>
 
