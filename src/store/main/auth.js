@@ -41,6 +41,12 @@ export const auth = {
             commit('setLayout','def')
          }
       },
+      async register({dispatch},payload){
+         return await dispatch('postAxios',{
+            url:'auth/reg',
+            data:payload 
+         })
+      },
       async checkUser({dispatch,commit}){
          if(cookies.isKey('hospital-user') && cookies.isKey('hospital-token')){
             commit('setUser',cookies.get('hospital-user'))

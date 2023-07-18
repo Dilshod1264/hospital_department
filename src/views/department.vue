@@ -10,6 +10,7 @@
                 <th>Nomi</th>
                 <th>Yaratilgan vaqti</th>
                 <th> </th>
+                <th> </th>
               </thead>
               <tbody> 
                 <tr v-for="department,index of departments" :key="department._id">
@@ -17,37 +18,31 @@
                    <td>{{ department.title }}</td>
                    <td>{{ department.createdTime }}</td>  
                   <td> <button @click="remove(department._id)">X</button> </td>
+                  <td> <button @click="edit(department._id)">edit</button> </td>
                 </tr>
               </tbody>
             </table>
-            <ul class="pagination">
-              <li><img src="@/assets/img/right.png" alt=""></li>
-              <li class="active">1</li>
-              <li>2 </li>
-              <li>3     </li>
-              <li><img src="@/assets/img/left.png" alt=""></li>
-            </ul>
       </div>
       <button class="add" @click="toggle = true" >
          <img src="@/assets/img/doctors.svg" alt="">
       </button>
       <div :class="`modal ${toggle ? 'open' : ''}`"> 
       <div class="modal_box"> 
-        <h4 class="text-center mb-20"> Yangi bo'lim qoshish</h4>
-        <form id ="depart" @submit.prevent="add()">
+        <h4 class="text-center mb-20"> {{ editToggle ? 'Yangi bo`lim qoshish' : 'Bo`limni tahrirlash' }}</h4>
+        <form id ="depart" @submit.prevent="editToggle ? add() : save()">
               <input 
               class="input" 
               name="title" 
               type="text" 
               placeholder="Bo'lim nomini kiriting"
-              v-model="title"
-              @keypress.enter="add() "
+              v-model="department.title"
+              @keypress.enter="editToggle ? add() : save() "
               >
         </form>
         <div class="modal_footer mt-20">
-          <button class="btn danger" @click="toggle = false">Bekor qilish</button>
+          <button class="btn danger" @click="clear()">Bekor qilish</button>
           <button class="btn success btn_add" v-if="editToggle" @click="add()">Kiritish</button>
-          <button class="btn success" v-else @click="add( )">Saqlash</button>
+          <button class="btn success" v-else @click="save( )">Saqlash</button>
         </div>
       </div>
     </div>
@@ -61,9 +56,7 @@ export default {
    data:()=>({
       toggle:false,
       editToggle:true,
-      title:'',
-      token:'',
-      notif:{}
+      department:{}
    }),
    computed: {
       ...mapGetters([
@@ -75,11 +68,13 @@ export default {
       ...mapActions([
       'getAllDepartments',
       'addDepartment',
-      'deleteDepartment'
+      'deleteDepartment',
+      'getDepartment',
+      'saveDepartment'
       ]),
       async add(){
-         if(this.title){
-            this.addDepartment({title:this.title})
+         if(this.department.title){
+            this.addDepartment(this.department)
             this.clear()
          }
          else{
@@ -89,6 +84,18 @@ export default {
             })
          }
       },
+      async save(){
+         this.saveDepartment(this.department)
+         this.clear()
+      },
+      async edit(id){
+         let res =  await this.getDepartment(id)
+         if(res.status == 200){
+           this.department = {...res.data}
+           this.toggle = true
+           this.editToggle = false
+         }
+      },
       remove(id){
          if(confirm('Qaroringiz qattiymi')){
             this.deleteDepartment(id)
@@ -96,7 +103,8 @@ export default {
       },
       clear(){
          this.toggle = false,
-         this.title = ""
+         this.department = {}
+         this.editToggle = true
       }
    },
    mounted(){

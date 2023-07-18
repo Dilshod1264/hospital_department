@@ -35,7 +35,7 @@ export const department = {
       updateDepartment(state,payload){
          state.departments = state.departments.map(department =>{
             if(department._id == payload._id)
-               return {...playload,createdTime:converDate(payload.createdTime)}
+               return {...payload,createdTime:converDate(payload.createdTime)}
             return department
          })
       },
@@ -62,7 +62,7 @@ export const department = {
             commit('newDepartment',res.data),
             commit('setNotif',{
                type:'success',
-               text:'Bolim qoshildi'
+               text:'Yangi Bolim qoshildi'
             })
          }
       },
@@ -74,8 +74,24 @@ export const department = {
                type:'warning',
                text:'Bo`lim o`chirildi'
             })
+         }  
+      },
+      async getDepartment({dispatch},payload){
+         return await dispatch('getAxios',`department/${payload}`)
+      },
+      async saveDepartment({dispatch,commit},payload){
+         let res = await dispatch('putAxios',{
+            url:'department',
+            data:payload
+         })
+         if(res.status == 200){
+            commit('updateDepartment',res.data)
+            commit('setNotif',{
+               type:'success',
+               text:'Malumot yangilandi'
+            })
+
          }
-         
       }
    }
 }

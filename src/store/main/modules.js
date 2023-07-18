@@ -7,7 +7,7 @@ import { department } from "../data/department"
 import  {spec} from "../data/spec"
 
 import { notif } from "../component/notif"
-
+import {room} from "../data/room"
 export const modules = {
    auth,
    layout,
@@ -15,6 +15,7 @@ export const modules = {
    helpers,
    department,
    spec,
+   room,
    
    notif,
 }

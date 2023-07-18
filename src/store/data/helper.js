@@ -36,6 +36,26 @@ export const helpers = {
              "authorization":`Bearer ${getters.token}`
              }
          })
-      }
+      },
+      async putAxios({getters,commit},payload){
+         return await axios.put(`${getters.mainUrl}/${payload.url}`,payload.data,{
+            headers:{
+               "authorization":`Bearer ${getters.token}`
+            }
+         }).catch(e => {
+            let {data,status} = e.response
+            commit('setNotif',{
+               type: 'danger',
+               text: data
+            })  
+            if(status == 404){
+               cookies.remove('hospital-user')
+               cookies.remove('hospital-token')
+
+               commit('setLayout','auth')
+            }
+            console.clear()
+         })
+      },
    }
 }

@@ -51,6 +51,11 @@ export default {
             title:'Mutaxassisliklar',
             icon:'department'
          },
+         {
+            link:'/room',
+            title:'Xonalar',
+            icon:'palata'
+         }
    ]
    }),
    methods:{

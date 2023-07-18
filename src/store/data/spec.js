@@ -35,7 +35,7 @@ export const spec = {
       updateSpec(state,payload){
          state.specs = state.specs.map(spec =>{
             if(spec._id == payload._id)
-               return {...playload,createdTime:converDate(payload.createdTime)}
+               return {...payload,createdTime:converDate(payload.createdTime)}
             return spec
          })
       },
@@ -76,6 +76,23 @@ export const spec = {
             })
          }
          
+      },
+      async getSpec({dispatch},payload){
+         return await dispatch('getAxios',`spec/${payload}`)
+      },
+      async saveSpec({dispatch,commit},payload){
+         let res = await dispatch('putAxios',{
+            url:'spec',
+            data:payload
+         })
+         if(res.status == 200){
+            commit('updateSpec',res.data)
+            commit('setNotif',{
+               type:'success',
+               text:'Malumot yangilandi'
+            })
+
+         }
       }
    }
 }
